@@ -9,7 +9,7 @@ using UnityEngine.InputSystem.Interactions;
 
 class MenuMetrics
 {
-    static string dir = "C:\\Users\\sammi\\Desktop\\unity projects\\My project\\Assets\\Scripts\\logs";
+    static string dir = Path.Combine(Application.persistentDataPath, "logs");
 
     /*static void Main(string[] args)
     {
@@ -25,7 +25,8 @@ class MenuMetrics
     public static void LogMetrics(string name, float startTime, float endTime, float timespent)
     {
         //path of the menu's json file
-        string path = dir + "\\" + name + ".json";
+        string FileName = name + ".json";
+        string path = path.Combine(dir, FileName);
 
         // Debug.Log("pre-appending");
 
@@ -37,11 +38,27 @@ class MenuMetrics
         // Debug.Log("first add done");
         menu.Timestamps.Add(endTime);
         menu.Timespent.Add(timespent);
-        menu.Counter += 1;
+        menu.LookCounter += 1;
         menu.TotalTime += timespent;
         // Debug.Log("starting append");
         Append(menu, path);
         // Debug.Log("appended");
+    }
+    
+    public static void IncrementClick(string name)
+    {
+        //path of the menu's json file
+        string FileName = name + ".json";
+        string path = path.Combine(dir, FileName);
+
+        //initialize a new menu or 
+        //a menu with existing data loaded in
+        ArtMenu menu = Initialize(path);
+
+        menu.ClickCounter += 1;
+        
+        Append(menu, path);
+        
     }
 
     //creates the directory and/or json file if it does not exist
@@ -63,21 +80,6 @@ class MenuMetrics
             File.Create(path).Close();
             return new ArtMenu();
         }
-        /*else //file exists
-        {
-            string existingJSON = File.ReadAllText(path);
-            Debug.Log("existingJson string:" + existingJSON);
-            if (existingJSON == null)
-            {
-                return new ArtMenu();
-            }
-            ArtMenu? m = JsonUtility.FromJson<ArtMenu>(existingJSON);
-            if (m == null)
-            {
-                return new ArtMenu();
-            }
-            return m;
-        }*/
 
         else //file exists
         {
@@ -87,7 +89,6 @@ class MenuMetrics
                 return new ArtMenu();
             }
             ArtMenu? m = JsonUtility.FromJson<ArtMenu>(existingJSON);
-            Debug.Log(m);
 
             if (m == null)
             {
@@ -114,7 +115,8 @@ class MenuMetrics
     [Serializable]
     public class ArtMenu
     {
-        public int Counter = 0;
+        public int LookCounter = 0;
+        public int ClickCounter = 0;
         public float TotalTime = 0;
         public List<float> Timespent = new List<float>();
         public List<float> Timestamps = new List<float>();
