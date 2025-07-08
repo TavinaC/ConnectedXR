@@ -26,7 +26,7 @@ class MenuMetrics
     {
         //path of the menu's json file
         string FileName = name + ".json";
-        string path = path.Combine(dir, FileName);
+        string path = Path.Combine(dir, FileName);
 
         // Debug.Log("pre-appending");
 
@@ -49,7 +49,7 @@ class MenuMetrics
     {
         //path of the menu's json file
         string FileName = name + ".json";
-        string path = path.Combine(dir, FileName);
+        string path = Path.Combine(dir, FileName);
 
         //initialize a new menu or 
         //a menu with existing data loaded in
