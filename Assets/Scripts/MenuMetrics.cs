@@ -45,7 +45,7 @@ class MenuMetrics
         // Debug.Log("appended");
     }
     
-    public static void IncrementClick(string name, float timestamp)
+    public static void IncrementClick(string name, string timestamp)
     {
         //path of the menu's json file
         string FileName = name + ".json";
@@ -121,7 +121,7 @@ class MenuMetrics
         public float TotalTime = 0;
         public List<float> Timespent = new List<float>();
         public List<float> Timestamps = new List<float>();
-        public List<float> ClickStamp = new List<float>();
+        public List<string> ClickStamp = new List<string>();
     }
 /*public class ArtMenu
 {
